@@ -2,6 +2,8 @@ package com.trayo.student.Controller;
 
 import com.trayo.student.Entity.Student;
 import com.trayo.student.Service.StudentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +17,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
+@Api(tags = "Student_Controller_Api")
 public class StudentController {
 
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/")
+    @PostMapping("/create")
     @Operation(summary = "Create a new student", description = "Adds a new student to the database.")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         Student create = this.studentService.create(student);
@@ -34,8 +37,9 @@ public class StudentController {
         return ResponseEntity.ok(updated);
     }
 
+    @ApiOperation(value = "Get all students",notes = "Fetches the list of all students.")
     @GetMapping("/")
-    @Operation(summary = "Get all students", description = "Fetches the list of all students.")
+   // @Operation(summary = "Get all students", description = "Fetches the list of all students.")
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> all = this.studentService.getAll();
         return ResponseEntity.ok(all);
